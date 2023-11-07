@@ -6,6 +6,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "UObject/FastReferenceCollector.h"
+#include "MotionWarpingComponent.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
