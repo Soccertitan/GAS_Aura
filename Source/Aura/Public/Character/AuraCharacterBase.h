@@ -31,10 +31,15 @@ public:
     virtual AActor* GetAvatar_Implementation() override;
     virtual UAnimMontage* GetHitReactMontage_Implementation() override;
     virtual void Die() override;
+	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
     /** end Combat Interface */
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TArray<FTaggedMontage> AttackMontages;
+	
 protected:
 	virtual void BeginPlay() override;
 
