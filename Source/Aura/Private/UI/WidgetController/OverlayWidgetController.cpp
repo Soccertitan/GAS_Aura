@@ -45,20 +45,38 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		}
 	);
 
-	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[this](const FGameplayTagContainer& AssetTags)
+	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		if (AuraASC->bStartupAbilitiesGiven)
 		{
-			for (const FGameplayTag& Tag : AssetTags)
-			{
-				// For example, say that Tag = Message.HealthPotion
-				// "Message.HealthPotion".MatchesTag("Message") will return true. "Message".MatchesTag("Message.HealthPotion") will return false.
-				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag("Message");
-				if (Tag.MatchesTag(MessageTag))
-				{
-					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
-					MessageWidgetRowDelegate.Broadcast(*Row);
-				}
-			}
+			OnInitializeStartupAbilities();
 		}
-	);
+		else
+		{
+			AuraASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+		}
+		
+		AuraASC->EffectAssetTags.AddLambda(
+        		[this](const FGameplayTagContainer& AssetTags)
+        		{
+        			for (const FGameplayTag& Tag : AssetTags)
+        			{
+        				// For example, say that Tag = Message.HealthPotion
+        				// "Message.HealthPotion".MatchesTag("Message") will return true. "Message".MatchesTag("Message.HealthPotion") will return false.
+        				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag("Message");
+        				if (Tag.MatchesTag(MessageTag))
+        				{
+        					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+        					MessageWidgetRowDelegate.Broadcast(*Row);
+        				}
+        			}
+        		}
+        	);
+	}
+}
+
+void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC)
+{
+	//TODO Get Information about all given abilities, look up their ability info, and broadcast it to widgets.
+	if (!AuraASC->bStartupAbilitiesGiven) return;
 }
