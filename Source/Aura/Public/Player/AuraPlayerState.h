@@ -9,8 +9,9 @@
 
 class UAttributeSet;
 class UAbilitySystemComponent;
+class ULevelUpInfo;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangedSignature, int32 /*StatValue*/, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangedSignature, int32 /*StatValue*/);
 
 /**
  * 
@@ -25,6 +26,9 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<ULevelUpInfo> LevelUpInfo;
 
 	FOnPlayerStatChangedSignature OnLevelChangedDelegate;
 	FOnPlayerStatChangedSignature OnXPChangedDelegate;

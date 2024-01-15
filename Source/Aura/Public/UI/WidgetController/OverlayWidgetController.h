@@ -20,7 +20,7 @@ struct FUIWidgetRow : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FText Message = FText();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<class UAuraUserWidget> MessageWidget;
+	TSubclassOf<UAuraUserWidget> MessageWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UTexture2D* Image = nullptr;
 };
@@ -55,6 +55,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
 	FAbilityInfoSignature AbilityInfoDelegate;
 
+	UPROPERTY(BlueprintAssignable, Category="GAS|XP")
+	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
@@ -67,6 +70,8 @@ protected:
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
 	void OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC);
+
+	void OnXPChanged(int32 NewXP) const;
 };
 
 template <typename T>
