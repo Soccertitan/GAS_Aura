@@ -7,6 +7,7 @@
 #include "GameplayEffect.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "AuraCharacterBase.generated.h"
 
 class UGameplayEffect;
@@ -32,6 +33,7 @@ public:
     virtual UAnimMontage* GetHitReactMontage_Implementation() override;
     virtual void Die() override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+	virtual ECharacterClass GetCharacterClass_Implementation() override;
     /** end Combat Interface */
 
 	UFUNCTION(NetMulticast, Reliable)
@@ -51,6 +53,9 @@ protected:
 	FName LeftHandSocketName;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName RightHandSocketName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
 	bool bDead = false;
 
