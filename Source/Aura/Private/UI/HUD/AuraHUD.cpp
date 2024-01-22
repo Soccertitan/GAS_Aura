@@ -36,7 +36,7 @@ USpellMenuWidgetController* AAuraHUD::GetSpellMenuWidgetController(const FWidget
 {
 	checkf(SpellMenuWidgetControllerClass, TEXT("Spell Menu Widget Controller Class uninitialized, please fill out BP_AuraHUD"));
 	
-	if (SpellMenuWidgetController = nullptr)
+	if (SpellMenuWidgetController == nullptr)
 	{
 		SpellMenuWidgetController = NewObject<USpellMenuWidgetController>(this, SpellMenuWidgetControllerClass);
 		SpellMenuWidgetController->SetWidgetControllerParams(WCParams);
